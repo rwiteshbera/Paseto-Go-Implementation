@@ -1,0 +1,5 @@
+.env
+*.exe
+.idea
+*.exe
+tmp/
