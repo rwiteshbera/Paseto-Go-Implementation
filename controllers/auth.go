@@ -3,6 +3,7 @@ package controllers
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/rwiteshbera/Paseto-Go-Implementation/db"
+	"github.com/rwiteshbera/Paseto-Go-Implementation/middlewares"
 	"github.com/rwiteshbera/Paseto-Go-Implementation/models"
 	"github.com/rwiteshbera/Paseto-Go-Implementation/server"
 	"github.com/rwiteshbera/Paseto-Go-Implementation/utils"
@@ -99,10 +100,12 @@ func Login(server *server.Server) gin.HandlerFunc {
 			context.JSON(http.StatusInternalServerError, gin.H{"error": err})
 		}
 		loginResponse = models.LoginUserResponse{
-			AccessToken: accessToken,
+			AccessToken: middlewares.AuthorizationTypeBearer + " " + accessToken,
 			LastLogin:   user.LastLogin,
 			User:        user,
 		}
+
+		context.SetCookie("authorization", loginResponse.AccessToken, 0, "/", "localhost", false, true)
 
 		context.JSON(http.StatusOK, gin.H{"message": loginResponse})
 	}

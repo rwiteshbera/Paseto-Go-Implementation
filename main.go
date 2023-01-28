@@ -29,6 +29,7 @@ func main() {
 	})
 
 	routes.AuthenticationRoutes(Server)
+	routes.UserRoutes(Server)
 
 	err = Server.Start(config.SERVER_PORT)
 	if err != nil {
